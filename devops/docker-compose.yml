@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      SA_PASSWORD: Your_password123
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+    # volumes:
+    #   - data:/var/opt/mssql
+
+  webapi:
+    container_name: webapi
+    build:
+      context: ../dotnet-graphql
+    restart: always
+    ports:
+      - 5000:80
+    environment:
+      SQLSERVER_HOST: db
+      SQLSERVER_SA_PASSWORD: Your_password123
+      ConnectionString: Server=db;Database=webapp;User Id=sa;Password=Your_password123;
+    depends_on:
+      - db
+# volumes:
+#   data:

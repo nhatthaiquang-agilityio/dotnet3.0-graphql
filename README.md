@@ -15,6 +15,13 @@
 + Error with Complex Input Types "Unable to parse input as a type. Did you provide a List or Scalar value accidentally?
     - Fixed: https://github.com/graphql-dotnet/graphql-dotnet/issues/816
 
++ The collection type 'Newtonsoft.Json.Linq.JToken' is not supported(Dotnet 3.0)
+    - Fixed: https://stackoverflow.com/questions/58072703/jsonresultobject-causes-the-collection-type-newtonsoft-json-linq-jtoken-is
+    - Add a package reference to Microsoft.AspNetCore.Mvc.NewtonsoftJson
+    - Update Startup.ConfigureServices to call AddNewtonsoftJson
+        ```
+        services.AddMvc().AddNewtonsoftJson();
+        ```
 
 ### Usage
 
