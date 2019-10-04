@@ -4,7 +4,6 @@ using dotnet_graphql.Models;
 using dotnet_graphql.GraphQL;
 using dotnet_graphql.Queries;
 using ExpressMapper;
-using GraphiQl;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -88,7 +87,6 @@ namespace dotnet_graphql
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseGraphiQl(GraphQlPath);
             app.UseEndpoints(endpoints =>
             {
                 //route map configuration

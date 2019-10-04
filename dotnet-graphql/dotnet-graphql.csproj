@@ -23,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="2.4.0" />
-    <PackageReference Include="graphiql" Version="1.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -35,13 +34,4 @@
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
     <PackageReference Include="GraphQL.Server.Ui.Playground" Version="3.4.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Migrations\20191002041207_InitialCreate.Designer.cs" />
-    <Compile Remove="Migrations\20191003020756_NewMigrations.Designer.cs" />
-    <Compile Remove="Migrations\20191003020756_NewMigrations.cs" />
-    <Compile Remove="Migrations\AppDbContextModelSnapshot.cs" />
-    <Compile Remove="Migrations\20191003020831_NewMigrations.Designer.cs" />
-    <Compile Remove="Migrations\20191003020831_NewMigrations.cs" />
-  </ItemGroup>
-
 </Project>

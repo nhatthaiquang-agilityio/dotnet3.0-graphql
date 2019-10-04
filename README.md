@@ -31,7 +31,7 @@
 
 ### Usage
 
-+ GraphQL(http://localhost:5000/graphql/)
++ GraphQL(http://localhost:5000/ui/playground)
     + Check GraphQL schema
         ```
         {

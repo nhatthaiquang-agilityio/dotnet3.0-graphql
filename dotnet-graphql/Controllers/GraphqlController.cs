@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace dotnet_graphql.Controllers
 {
     [Route(Startup.GraphQlPath)]
-    public class GraphqlController : Controller
+    public class GraphqlController : ControllerBase
     {
         private readonly ISchema _schema;
 
