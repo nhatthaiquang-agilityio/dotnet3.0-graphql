@@ -19,6 +19,7 @@
     <Folder Include="Data\" />
     <Folder Include="GraphQL\" />
     <Folder Include="Services\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="2.4.0" />
@@ -30,5 +31,15 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Expressmapper" Version="1.9.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20191002041207_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20191003020756_NewMigrations.Designer.cs" />
+    <Compile Remove="Migrations\20191003020756_NewMigrations.cs" />
+    <Compile Remove="Migrations\AppDbContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\20191003020831_NewMigrations.Designer.cs" />
+    <Compile Remove="Migrations\20191003020831_NewMigrations.cs" />
+  </ItemGroup>
+
 </Project>

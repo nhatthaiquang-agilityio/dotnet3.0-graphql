@@ -52,6 +52,7 @@ namespace dotnet_graphql.Services
 
             // save product
             await _appDBContext.Products.AddAsync(product);
+            await _appDBContext.SaveChangesAsync();
 
             // save size
             if (productViewModel.Sizes != null)
