@@ -15,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
 
 namespace dotnet_graphql
 {
@@ -83,15 +85,18 @@ namespace dotnet_graphql
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAuthorization();
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthorization();
             app.UseGraphiQl(GraphQlPath);
-
             app.UseEndpoints(endpoints =>
             {
+                //route map configuration
                 endpoints.MapControllers();
             });
+
+            app.UseGraphQL<GraphQLSchema>();
+            app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
         }
 
         // Seed Data

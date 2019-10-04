@@ -23,9 +23,15 @@
         services.AddMvc().AddNewtonsoftJson();
         ```
 
++ Error: Microsoft.AspNetCore.Routing.EndpointMiddleware: Information: Executing endpoint '405 HTTP Method Not Supported' in AspNet 3.0
+    - Has the Issue with the Endpoint
+    - Fixed: Add GraphQL.Server.Transports.AspNetCore and GraphQL.Server.Ui.Playground packages
+    - And then: Run on UI playground http://localhost:5000/ui/playground
+    - Using http://localhost:5000/graphql it still doesn't work.
+
 ### Usage
 
-+ GraphQL(http://localhost:5000/graphql)
++ GraphQL(http://localhost:5000/graphql/)
     + Check GraphQL schema
         ```
         {

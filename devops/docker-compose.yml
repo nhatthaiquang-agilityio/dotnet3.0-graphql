@@ -19,8 +19,6 @@ services:
     ports:
       - 5000:80
     environment:
-      SQLSERVER_HOST: db
-      SQLSERVER_SA_PASSWORD: Your_password123
       ConnectionString: Server=db;Database=webapp;User Id=sa;Password=Your_password123;
     depends_on:
       - db
