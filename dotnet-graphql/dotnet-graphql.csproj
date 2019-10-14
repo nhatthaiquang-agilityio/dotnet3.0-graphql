@@ -33,5 +33,7 @@
     <PackageReference Include="Expressmapper" Version="1.9.1" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
     <PackageReference Include="GraphQL.Server.Ui.Playground" Version="3.4.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
   </ItemGroup>
 </Project>

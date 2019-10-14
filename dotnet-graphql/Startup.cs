@@ -4,6 +4,9 @@ using dotnet_graphql.Models;
 using dotnet_graphql.GraphQL;
 using dotnet_graphql.Queries;
 using ExpressMapper;
+using GraphQL;
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,8 +17,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using GraphQL.Server;
-using GraphQL.Server.Ui.Playground;
 
 namespace dotnet_graphql
 {
@@ -36,15 +37,18 @@ namespace dotnet_graphql
             services.AddControllers();
 
             // Add framework services.
-            services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(Configuration["ConnectionString"], sqlOptions =>
-            {
-                sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                //Configuring Connection Resiliency:
-                // https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
-                sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
-            }));
+            //services.AddDbContext<AppDbContext>(
+            //    options => options.UseSqlServer(Configuration["ConnectionString"], sqlOptions =>
+            //{
+            //    sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+            //    //Configuring Connection Resiliency:
+            //    // https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
+            //    sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
+            //}));
 
+            services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(
+                options => options.UseNpgsql(Configuration["ConnectionString_Postgres"])
+            );
             services.AddScoped<BookService>();
             services.AddScoped<ProductService>();
             services.AddScoped<AuthorService>();
@@ -62,12 +66,12 @@ namespace dotnet_graphql
             services.AddScoped<ProductMutation>();
 
             ServiceProvider sp = services.BuildServiceProvider();
-			//services.AddSingleton<ISchema>(new GraphQLSchema(new FuncDependencyResolver(sp.GetService)));
-            services.AddScoped<ISchema>(
-                _ => new GraphQLSchema(type => (GraphType)sp.GetService(type))
-                {
-                    Query = sp.GetService<APIQuery>()
-                });
+			services.AddSingleton<ISchema>(new GraphQLSchema(new FuncDependencyResolver(sp.GetService)));
+            //services.AddScoped<ISchema>(
+            //    _ => new GraphQLSchema(type => (GraphType)sp.GetService(type))
+            //    {
+            //        Query = sp.GetService<APIQuery>()
+            //    });
 
             services.AddMvc().AddNewtonsoftJson();
 
