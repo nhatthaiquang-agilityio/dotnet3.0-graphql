@@ -20,6 +20,7 @@ services:
       POSTGRES_DB: webapp
       POSTGRES_USER: postgres_user
       POSTGRES_PASSWORD: Your_password123
+
   webapi:
     container_name: webapi
     build:
