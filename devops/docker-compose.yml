@@ -1,15 +1,25 @@
 version: '2'
 
 services:
-  db:
-    image: mcr.microsoft.com/mssql/server:2017-latest
-    environment:
-      SA_PASSWORD: Your_password123
-      ACCEPT_EULA: Y
-    ports:
-      - "1433:1433"
+  # db:
+  #   image: mcr.microsoft.com/mssql/server:2017-latest
+  #   environment:
+  #     SA_PASSWORD: Your_password123
+  #     ACCEPT_EULA: Y
+  #   ports:
+  #     - "1433:1433"
     # volumes:
     #   - data:/var/opt/mssql
+
+  db:
+    image: postgres:11
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: webapp
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: Your_password123
 
   webapi:
     container_name: webapi
@@ -20,6 +30,7 @@ services:
       - 5000:80
     environment:
       ConnectionString: Server=db;Database=webapp;User Id=sa;Password=Your_password123;
+      ConnectionString_Postgres: Host=localhost;Database=webapp;Username=postgres_user;Password=Your_password123
     depends_on:
       - db
 # volumes:
