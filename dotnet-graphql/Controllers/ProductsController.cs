@@ -19,27 +19,41 @@ namespace dotnet_graphql.Controllers
         }
 
         //// GET api/products
+        /// <summary>
+        /// Get products.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> Get()
         {
-            IEnumerable<Product> products = await _productService.GetProducts();
-            IEnumerable<ProductViewModel> productViewModels =
-                Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products);
+            var products = await _productService.GetProducts();
+            var productViewModels = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products);
             return new ObjectResult(productViewModels);
         }
 
-        // GET api/products/1
+        /// GET api/products/1
+        /// <summary>
+        /// Get Product by Id.
+        /// </summary>
+        /// <param name="id">product id.</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductViewModel>> Get(int id)
         {
-            Product product = await _productService.GetProduct(id);
+            var product = await _productService.GetProduct(id);
             if (product == null)
                 return new NotFoundResult();
 
-            ProductViewModel productViewModel = Mapper.Map<Product, ProductViewModel>(product);
+            var productViewModel = Mapper.Map<Product, ProductViewModel>(product);
             return new OkObjectResult(productViewModel);
         }
 
+        /// GET api/products/{id}/sizes
+        /// <summary>
+        /// Get sizes of product
+        /// </summary>
+        /// <param name="id">product id.</param>
+        /// <returns></returns>
         [Route("{id:int}/sizes")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Size>>> GetSizesOfProduct(int id)
@@ -52,27 +66,35 @@ namespace dotnet_graphql.Controllers
             return new OkObjectResult(sizes);
         }
 
-        // POST api/products
+        /// POST api/products
+        /// <summary>
+        /// Create product
+        /// </summary>
+        /// <param name="productViewModel">product view model.</param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<ProductViewModel>> Post(
-            [FromBody] ProductViewModel productViewModel)
+        public async Task<ActionResult<ProductViewModel>> Post([FromBody] ProductViewModel productViewModel)
         {
-            Product product = await _productService.Create(productViewModel);
-            ProductViewModel productView = Mapper.Map<Product, ProductViewModel>(product);
+            var product = await _productService.Create(productViewModel);
+            var productView = Mapper.Map<Product, ProductViewModel>(product);
             return new OkObjectResult(productView);
         }
 
-        //PUT api/products/1
+        /// PUT api/products/1
+        /// <summary>
+        /// Update Product.
+        /// </summary>
+        /// <param name="productViewModel">product view model.</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ProductViewModel>> Put(
-            [FromBody] ProductViewModel productViewModel)
+        public async Task<ActionResult<ProductViewModel>> Put([FromBody] ProductViewModel productViewModel)
         {
-            Product product = await _productService.UpdateProductAsync(productViewModel);
+            var product = await _productService.UpdateProductAsync(productViewModel);
 
             if (product == null)
                 return new NotFoundResult();
 
-            ProductViewModel productView = Mapper.Map<Product, ProductViewModel>(product);
+            var productView = Mapper.Map<Product, ProductViewModel>(product);
 
             return new OkObjectResult(productView);
         }

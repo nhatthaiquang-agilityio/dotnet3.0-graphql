@@ -17,6 +17,12 @@ namespace dotnet_graphql.Controllers
             _schema = schema;
         }
 
+        /// <summary>
+        /// Post query graphQL
+        /// </summary>
+        /// <param name="query">query graphql.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] GraphQLQuery query)
         {

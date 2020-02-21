@@ -10,31 +10,45 @@ namespace dotnet_graphql.Services
 {
     public class BookService
     {
-        private readonly AppDbContext _appDBContext;
+        private readonly AppDbContext _appDbContext;
         public BookService(AppDbContext context)
         {
-            _appDBContext = context ?? throw new ArgumentNullException(nameof(context));
+            _appDbContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        /// <summary>
+        /// Get all books.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Book>> GetBooks()
         {
-            return await _appDBContext.Books.Include(a => a.Author)
+            return await _appDbContext.Books.Include(a => a.Author)
                 .Include(b => b.BookCategories)
                     .ThenInclude(c => c.Category).AsNoTracking()
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get a book.
+        /// </summary>
+        /// <param name="id">book Id.</param>
+        /// <returns></returns>
         public async Task<Book> GetBook(int id)
         {
-            return await _appDBContext.Books.Include(a => a.Author)
+            return await _appDbContext.Books.Include(a => a.Author)
                 .Include(c => c.BookCategories)
                     .ThenInclude(c => c.Category).AsNoTracking()
                 .SingleAsync(b => b.Id == id);
         }
 
+        /// <summary>
+        /// Create the book.
+        /// </summary>
+        /// <param name="bookViewModel"></param>
+        /// <returns></returns>
         public async Task<Book> Create(BookViewModel bookViewModel)
         {
-            Book book = new Book
+            var book = new Book
             {
                 BookName = bookViewModel.BookName,
                 Price = bookViewModel.Price,
@@ -45,13 +59,13 @@ namespace dotnet_graphql.Services
             if (bookViewModel.BookCategories != null)
             {
                 // update bookcategory
-                List<Category> categories = await _appDBContext.Categories
+                var categories = await _appDbContext.Categories
                     .Where(c => bookViewModel.BookCategories.Contains(c.CategoryName)).ToListAsync();
 
                 book.BookCategories = new List<BookCategory>();
 
                 // and then add new bookcategory
-                foreach (Category category in categories)
+                foreach (var category in categories)
                 {
                     book.BookCategories.Add(new BookCategory
                     {
@@ -61,27 +75,36 @@ namespace dotnet_graphql.Services
                 }
             }
 
-            await _appDBContext.Books.AddAsync(book);
-            await _appDBContext.SaveChangesAsync();
+            await _appDbContext.Books.AddAsync(book);
+            await _appDbContext.SaveChangesAsync();
             return book;
         }
 
+        /// <summary>
+        /// Delete Book.
+        /// </summary>
+        /// <param name="id">Book Id.</param>
+        /// <returns></returns>
         public async Task<bool> Delete(int id)
         {
-            Book book = await _appDBContext.Books.SingleAsync(b => b.Id == id);
+            var book = await _appDbContext.Books.SingleAsync(b => b.Id == id);
             if (book == null)
-            {
                 return false;
-            }
 
-            _appDBContext.Books.Remove(book);
-            await _appDBContext.SaveChangesAsync();
+            _appDbContext.Books.Remove(book);
+            await _appDbContext.SaveChangesAsync();
             return true;
         }
 
+        /// <summary>
+        /// Update Book.
+        /// </summary>
+        /// <param name="id">Book Id.</param>
+        /// <param name="bookViewModel"></param>
+        /// <returns></returns>
         public async Task<Book> Update(int id, BookViewModel bookViewModel)
         {
-            Book bookFromDb = await GetBook(id);
+            var bookFromDb = await GetBook(id);
 
             if (bookFromDb == null)
                 return null;
@@ -95,13 +118,13 @@ namespace dotnet_graphql.Services
             if (bookViewModel.BookCategories != null)
             {
                 // update bookcategory
-                List<Category> categories = await _appDBContext.Categories
+                var categories = await _appDbContext.Categories
                     .Where(c => bookViewModel.BookCategories.Contains(c.CategoryName)).ToListAsync();
 
                 // remove old bookcategory
-                List<BookCategory> bookCategories = await _appDBContext.BookCategories
+                var bookCategories = await _appDbContext.BookCategories
                     .Where(b => b.BookId == bookViewModel.Id).ToListAsync();
-                _appDBContext.BookCategories.RemoveRange(bookCategories);
+                _appDbContext.BookCategories.RemoveRange(bookCategories);
 
                 // and then add new bookcategory
                 foreach (var category in categories)
@@ -113,21 +136,31 @@ namespace dotnet_graphql.Services
                     });
                 }
             }
-            _appDBContext.Books.Update(bookFromDb);
+            _appDbContext.Books.Update(bookFromDb);
 
-            await _appDBContext.SaveChangesAsync();
+            await _appDbContext.SaveChangesAsync();
             return bookFromDb;
         }
 
+        /// <summary>
+        /// Get Book Category.
+        /// </summary>
+        /// <param name="bookId">Book Id.</param>
+        /// <returns></returns>
         public async Task<BookCategory> GetBookCategory(int bookId)
         {
-            return await _appDBContext.BookCategories
+            return await _appDbContext.BookCategories
                 .Include(a => a.Category).FirstOrDefaultAsync(i => i.BookId == bookId);
         }
 
+        /// <summary>
+        /// Get Category.∂
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
         public async Task<Category> GetCategory(int categoryId)
         {
-            return await _appDBContext.Categories.FirstOrDefaultAsync(i => i.CategoryId == categoryId);
+            return await _appDbContext.Categories.FirstOrDefaultAsync(i => i.CategoryId == categoryId);
         }
     }
 }

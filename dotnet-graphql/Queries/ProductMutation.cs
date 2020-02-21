@@ -18,7 +18,7 @@ namespace dotnet_graphql.Queries
             ),
             resolve: context =>
             {
-                ProductViewModel product = context.GetArgument<ProductViewModel>("product");
+                var product = context.GetArgument<ProductViewModel>("product");
                 return productService.Create(product);
             });
 
@@ -29,7 +29,7 @@ namespace dotnet_graphql.Queries
             ),
             resolve: context =>
             {
-                ProductViewModel product = context.GetArgument<ProductViewModel>("product");
+                var product = context.GetArgument<ProductViewModel>("product");
                 return productService.UpdateProductAsync(product);
             });
         }

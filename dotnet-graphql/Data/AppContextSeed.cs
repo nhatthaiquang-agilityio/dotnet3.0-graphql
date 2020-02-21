@@ -22,7 +22,7 @@ namespace dotnet_graphql.Data
                 await context.Products.AddRangeAsync(GetPreconfiguredProducts());
                 await context.SaveChangesAsync();
 
-                foreach (var product in context.Products.ToList<Product>())
+                foreach (var product in context.Products.ToList())
                 {
                     await context.Sizes.AddRangeAsync(new List<Size>
                     {
@@ -42,7 +42,7 @@ namespace dotnet_graphql.Data
             }
         }
 
-        private IEnumerable<ProductBrand> GetPreconfiguredProductBrands()
+        private static IEnumerable<ProductBrand> GetPreconfiguredProductBrands()
         {
             return new List<ProductBrand>
             {
@@ -54,7 +54,7 @@ namespace dotnet_graphql.Data
             };
         }
 
-        private IEnumerable<ProductType> GetPreconfiguredProductTypes()
+        private static IEnumerable<ProductType> GetPreconfiguredProductTypes()
         {
             return new List<ProductType>
             {
@@ -64,50 +64,111 @@ namespace dotnet_graphql.Data
             };
         }
 
-        private IEnumerable<Product> GetPreconfiguredProducts()
+        private static IEnumerable<Product> GetPreconfiguredProducts()
         {
             return new List<Product>
             {
                 new Product {
-                    ProductTypeId = 2, ProductBrandId = 1, AvailableStock = 100, Description = "Black Hoodie",
-                    Name = "Bot Black Hoodie", Price = 19.5M },
+                    ProductTypeId = 2,
+                    ProductBrandId = 1,
+                    AvailableStock = 100,
+                    Description = "Black Hoodie",
+                    Name = "Bot Black Hoodie",
+                    Price = 19.5M
+                },
                 new Product {
-                    ProductTypeId = 1, ProductBrandId = 2, AvailableStock = 100, Description = "Black & White Shoes",
-                    Name = "Black & White Shoes", Price= 8.50M },
+                    ProductTypeId = 1,
+                    ProductBrandId = 2,
+                    AvailableStock = 100,
+                    Description = "Black & White Shoes",
+                    Name = "Black & White Shoes",
+                    Price= 8.50M
+                },
                 new Product {
-                    ProductTypeId = 2, ProductBrandId = 5, AvailableStock = 100, Description = "Prism White T-Shirt",
-                    Name = "Prism White T-Shirt", Price = 12 },
+                    ProductTypeId = 2,
+                    ProductBrandId = 5,
+                    AvailableStock = 100,
+                    Description = "Prism White T-Shirt",
+                    Name = "Prism White T-Shirt",
+                    Price = 12
+                },
                 new Product {
-                    ProductTypeId = 2, ProductBrandId = 3, AvailableStock = 100, Description = "Foundation T-shirt",
-                    Name = "Foundation T-shirt", Price = 12 },
+                    ProductTypeId = 2,
+                    ProductBrandId = 3,
+                    AvailableStock = 100,
+                    Description = "Foundation T-shirt",
+                    Name = "Foundation T-shirt",
+                    Price = 12
+                },
                 new Product {
-                    ProductTypeId = 3, ProductBrandId = 4, AvailableStock = 100, Description = "Roslyn Red trousers pants",
-                    Name = "Roslyn Red trousers pants", Price = 8.5M},
+                    ProductTypeId = 3,
+                    ProductBrandId = 4,
+                    AvailableStock = 100,
+                    Description = "Roslyn Red trousers pants",
+                    Name = "Roslyn Red trousers pants",
+                    Price = 8.5M
+                },
                 new Product {
-                    ProductTypeId = 2, ProductBrandId = 2, AvailableStock = 100,
-                    Description = "Blue Hoodie", Name = " Blue Hoodie", Price = 12 },
+                    ProductTypeId = 2,
+                    ProductBrandId = 2,
+                    AvailableStock = 100,
+                    Description = "Blue Hoodie",
+                    Name = " Blue Hoodie",
+                    Price = 12
+                },
                 new Product {
-                    ProductTypeId = 2, ProductBrandId = 5, AvailableStock = 100,
-                    Description = "Roslyn Red T-Shirt", Name = "Roslyn Red T-Shirt", Price = 12 },
+                    ProductTypeId = 2,
+                    ProductBrandId = 5,
+                    AvailableStock = 100,
+                    Description = "Roslyn Red T-Shirt",
+                    Name = "Roslyn Red T-Shirt",
+                    Price = 12
+                },
                 new Product {
-                    ProductTypeId = 2, ProductBrandId = 1, AvailableStock = 100,
-                    Description = "Kudu Purple Hoodie", Name = "Kudu Purple Hoodie", Price = 8.5M },
+                    ProductTypeId = 2,
+                    ProductBrandId = 1,
+                    AvailableStock = 100,
+                    Description = "Kudu Purple Hoodie",
+                    Name = "Kudu Purple Hoodie",
+                    Price = 8.5M
+                },
                 new Product {
-                    ProductTypeId = 1, ProductBrandId = 5, AvailableStock = 100, Description = "White Sneaker",
-                    Name = "White Sneaker 11", Price = 12 },
+                    ProductTypeId = 1,
+                    ProductBrandId = 5,
+                    AvailableStock = 100,
+                    Description = "White Sneaker",
+                    Name = "White Sneaker 11",
+                    Price = 12
+                },
                 new Product {
-                    ProductTypeId = 3, ProductBrandId = 3, AvailableStock = 100, Description = "F1 Trouser",
-                    Name = "F1 trousers pants", Price = 11 },
+                    ProductTypeId = 3,
+                    ProductBrandId = 3,
+                    AvailableStock = 100,
+                    Description = "F1 Trouser",
+                    Name = "F1 trousers pants",
+                    Price = 11
+                },
                 new Product {
-                    ProductTypeId = 3, ProductBrandId = 2, AvailableStock = 100, Description = "Trouser",
-                    Name = " Trouser 11", Price = 8.50M },
+                    ProductTypeId = 3,
+                    ProductBrandId = 2,
+                    AvailableStock = 100,
+                    Description = "Trouser",
+                    Name = " Trouser 11",
+                    Price = 8.50M
+
+                },
                 new Product {
-                    ProductTypeId = 2, ProductBrandId = 4, AvailableStock = 100, Description = "Prism White TShirt",
-                    Name = "Prism White TShirt", Price = 16 }
+                    ProductTypeId = 2,
+                    ProductBrandId = 4,
+                    AvailableStock = 100,
+                    Description = "Prism White TShirt",
+                    Name = "Prism White TShirt",
+                    Price = 16
+                }
             };
         }
 
-        private async Task InitBooks(AppDbContext context)
+        private static async Task InitBooks(AppDbContext context)
         {
             await context.Authors.AddRangeAsync(new List<Author> {
                 new Author { FirstName = "Nick", LastName = "Shaw" },

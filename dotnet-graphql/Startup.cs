@@ -15,8 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace dotnet_graphql
 {
@@ -65,7 +65,7 @@ namespace dotnet_graphql
             services.AddScoped<APIQuery>();
             services.AddScoped<ProductMutation>();
 
-            ServiceProvider sp = services.BuildServiceProvider();
+            var sp = services.BuildServiceProvider();
 			services.AddSingleton<ISchema>(new GraphQLSchema(new FuncDependencyResolver(sp.GetService)));
             //services.AddScoped<ISchema>(
             //    _ => new GraphQLSchema(type => (GraphType)sp.GetService(type))
@@ -101,10 +101,13 @@ namespace dotnet_graphql
             app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
         }
 
-        // Seed Data
-        private void InitData(IServiceCollection services)
+        /// <summary>
+        /// Seed data
+        /// </summary>
+        /// <param name="services"> IServiceCollection.</param>
+        private static void InitData(IServiceCollection services)
         {
-            ServiceProvider sp = services.BuildServiceProvider();
+            var sp = services.BuildServiceProvider();
             var context = sp.GetRequiredService<AppDbContext>();
 
             try
@@ -120,20 +123,17 @@ namespace dotnet_graphql
             new AppContextSeed().SeedAsync(context).Wait();
         }
 
-        private void MappingRegistration()
+        /// <summary>
+        /// Mapping Model.
+        /// </summary>
+        private static void MappingRegistration()
         {
             Mapper.Register<Size, SizeViewModel>();
             Mapper.Register<Product, ProductViewModel>()
                 .Function(dest => dest.Sizes, src =>
                 {
-                    List<string> sizes = new List<string>(src.Sizes.Count);
-                    foreach (var size in src.Sizes)
-                    {
-                        if (size != null)
-                        {
-                            sizes.Add(size.Name);
-                        }
-                    }
+                    var sizes = new List<string>(src.Sizes.Count);
+                    sizes.AddRange(from size in src.Sizes where size != null select size.Name);
                     return sizes;
                 });
 
@@ -141,14 +141,9 @@ namespace dotnet_graphql
                 .Member(dest => dest.Author, src => src.Author.FirstName + " " + src.Author.LastName)
                 .Function(dest => dest.BookCategories, src =>
                 {
-                    List<string> categories = new List<string>(src.BookCategories.Count);
-                    foreach (var bookCategory in src.BookCategories)
-                    {
-                        if (bookCategory != null && bookCategory.Category != null)
-                        {
-                            categories.Add(bookCategory.Category.CategoryName);
-                        }
-                    }
+                    var categories = new List<string>(src.BookCategories.Count);
+                    categories.AddRange(from bookCategory in src.BookCategories
+                        where bookCategory?.Category != null select bookCategory.Category.CategoryName);
                     return categories;
                 });
             Mapper.Register<Author, AuthorDTO>();

@@ -9,20 +9,29 @@ namespace dotnet_graphql.Services
 {
     public class AuthorService
     {
-        private readonly AppDbContext _appDBContext;
+        private readonly AppDbContext _appDbContext;
         public AuthorService(AppDbContext context)
         {
-            _appDBContext = context ?? throw new ArgumentNullException(nameof(context));
+            _appDbContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        /// <summary>
+        /// Get Authors
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Author>> GetAuthors()
         {
-            return await _appDBContext.Authors.ToListAsync();
+            return await _appDbContext.Authors.ToListAsync();
         }
 
+        /// <summary>
+        /// Get Author
+        /// </summary>
+        /// <param name="id">author Id.</param>
+        /// <returns></returns>
         public async Task<Author> GetAuthor(int id)
         {
-            return await _appDBContext.Authors.SingleAsync(b => b.Id == id);
+            return await _appDbContext.Authors.SingleAsync(b => b.Id == id);
         }
 
     }
