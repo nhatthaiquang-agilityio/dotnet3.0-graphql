@@ -23,57 +23,27 @@ namespace dotnet_graphql
     public class Startup
     {
         public const string GraphQlPath = "/graphql";
+        private IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            // Add framework services.
-            //services.AddDbContext<AppDbContext>(
-            //    options => options.UseSqlServer(Configuration["ConnectionString"], sqlOptions =>
-            //{
-            //    sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-            //    //Configuring Connection Resiliency:
-            //    // https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
-            //    sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30), null);
-            //}));
-
-            services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(
-                options => options.UseNpgsql(Configuration["ConnectionString_Postgres"])
-            );
             services.AddScoped<BookService>();
             services.AddScoped<ProductService>();
             services.AddScoped<AuthorService>();
 
-            // using for graphql schema and mutation
-            services.AddSingleton<ProductInputType>();
-            services.AddSingleton<BookType>();
-            services.AddSingleton<AuthorType>();
-            services.AddSingleton<CategoryType>();
-            services.AddSingleton<BookCategoriesType>();
-            services.AddSingleton<GraphQL.ProductType>();
-            services.AddSingleton<SizeType>();
-
-            services.AddScoped<APIQuery>();
-            services.AddScoped<ProductMutation>();
-
-            var sp = services.BuildServiceProvider();
-			services.AddSingleton<ISchema>(new GraphQLSchema(new FuncDependencyResolver(sp.GetService)));
-            //services.AddScoped<ISchema>(
-            //    _ => new GraphQLSchema(type => (GraphType)sp.GetService(type))
-            //    {
-            //        Query = sp.GetService<APIQuery>()
-            //    });
-
             services.AddMvc().AddNewtonsoftJson();
+
+            ConfigureDatabase(services);
+
+            InitGraphQLSchema(services);
 
             MappingRegistration();
 
@@ -121,6 +91,44 @@ namespace dotnet_graphql
             }
 
             new AppContextSeed().SeedAsync(context).Wait();
+        }
+
+        /// <summary>
+        /// Config Database.
+        /// </summary>
+        /// <param name="services"> IServiceCollection.</param>
+        private void ConfigureDatabase(IServiceCollection services)
+        {
+            services.AddEntityFrameworkNpgsql().AddDbContext<AppDbContext>(
+                options => options.UseNpgsql(Configuration["ConnectionString_Postgres"])
+            );
+        }
+
+        /// <summary>
+        /// Init GraphQL Schema.
+        /// </summary>
+        /// <param name="services">IServiceCollection.</param>
+        private void InitGraphQLSchema(IServiceCollection services)
+        {
+            // using for graphql schema and mutation
+            services.AddSingleton<ProductInputType>();
+            services.AddSingleton<BookType>();
+            services.AddSingleton<AuthorType>();
+            services.AddSingleton<CategoryType>();
+            services.AddSingleton<BookCategoriesType>();
+            services.AddSingleton<GraphQL.ProductType>();
+            services.AddSingleton<SizeType>();
+
+            services.AddScoped<APIQuery>();
+            services.AddScoped<ProductMutation>();
+
+            var sp = services.BuildServiceProvider();
+            services.AddSingleton<ISchema>(new GraphQLSchema(new FuncDependencyResolver(sp.GetService)));
+            //services.AddScoped<ISchema>(
+            //    _ => new GraphQLSchema(type => (GraphType)sp.GetService(type))
+            //    {
+            //        Query = sp.GetService<APIQuery>()
+            //    });
         }
 
         /// <summary>
