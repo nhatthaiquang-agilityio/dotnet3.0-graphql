@@ -5,13 +5,14 @@
 + GraphQL
 
 
-### Prerequisite
+### Prerequisites
 + Asp Net Core 3.0
 + Entity Framework
-+ Sql Server
++ Sql Server or PostgresQL
 + Docker & Docker Compose
 
-### Issue
+
+### Issues
 + Error with Complex Input Types "Unable to parse input as a type. Did you provide a List or Scalar value accidentally?
     - Fixed: https://github.com/graphql-dotnet/graphql-dotnet/issues/816
 
@@ -29,7 +30,7 @@
     - And then: Run on UI playground http://localhost:5000/ui/playground
     - Using http://localhost:5000/graphql it still doesn't work.
 
-### Usage
+### Usages
 
 + GraphQL(http://localhost:5000/ui/playground)
     + Check GraphQL schema
@@ -271,9 +272,10 @@
         }
         ```
 
-### Reference
+### References
 + [Configuring Many To Many Relationships in Entity Framework Core](https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration)
 + [Configuring One To Many Relationships in Entity Framework Core](https://www.learnentityframeworkcore.com/configuration/one-to-many-relationship-configuration)
 + [Update many to many relationships in Entity Framework Core](https://www.thereformedprogrammer.net/updating-many-to-many-relationships-in-entity-framework-core/)
 + [Building a GraphQL API with ASP.NET Core 2 and Entity Framework Core](https://fullstackmark.com/post/17/building-a-graphql-api-with-aspnet-core-2-and-entity-framework-core)
 + [Build a GraphQL API with ASP.NET Core](https://developer.okta.com/blog/2019/04/16/graphql-api-with-aspnetcore)
++ [Building GraphQL APIs with ASP.NET Core](https://medium.com/volosoft/building-graphql-apis-with-asp-net-core-419b32a5305b)
