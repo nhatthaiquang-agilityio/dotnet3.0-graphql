@@ -12,7 +12,8 @@ namespace dotnet_graphql.GraphQL
             Field(x => x.Price).Description("Price of Book");
             Field(x => x.AuthorId).Description("Author Id");
             Field(x => x.Author, type: typeof(AuthorType)).Description("Author");
-            Field(x => x.BookCategories, type: typeof(ListGraphType<BookCategoriesType>)).Description("Categories of book");
+            Field(x => x.BookCategories, type: typeof(ListGraphType<BookCategoriesType>))
+                .Description("Categories of book");
         }
     }
 }

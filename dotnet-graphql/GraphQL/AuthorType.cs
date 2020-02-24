@@ -1,4 +1,3 @@
-
 using GraphQL.Types;
 using dotnet_graphql.Models;
 

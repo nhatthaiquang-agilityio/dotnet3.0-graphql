@@ -9,7 +9,7 @@ namespace dotnet_graphql.GraphQL
         {
             Field(x => x.Id).Description("Id");
             Field(x => x.Name).Description("Name ");
-            Field(x => x.Code).Description("COde");
+            Field(x => x.Code).Description("Code");
             Field(x => x.ProductId).Description("Product Id");
         }
     }

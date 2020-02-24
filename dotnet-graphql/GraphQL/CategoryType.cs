@@ -1,5 +1,6 @@
 ﻿using GraphQL.Types;
 using dotnet_graphql.Models;
+
 namespace dotnet_graphql.GraphQL
 {
     public class CategoryType : ObjectGraphType<Category>

@@ -68,7 +68,8 @@ namespace dotnet_graphql.Data
         {
             return new List<Product>
             {
-                new Product {
+                new Product
+                {
                     ProductTypeId = 2,
                     ProductBrandId = 1,
                     AvailableStock = 100,
@@ -76,7 +77,8 @@ namespace dotnet_graphql.Data
                     Name = "Bot Black Hoodie",
                     Price = 19.5M
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 1,
                     ProductBrandId = 2,
                     AvailableStock = 100,
@@ -84,7 +86,8 @@ namespace dotnet_graphql.Data
                     Name = "Black & White Shoes",
                     Price= 8.50M
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 2,
                     ProductBrandId = 5,
                     AvailableStock = 100,
@@ -92,7 +95,8 @@ namespace dotnet_graphql.Data
                     Name = "Prism White T-Shirt",
                     Price = 12
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 2,
                     ProductBrandId = 3,
                     AvailableStock = 100,
@@ -100,7 +104,8 @@ namespace dotnet_graphql.Data
                     Name = "Foundation T-shirt",
                     Price = 12
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 3,
                     ProductBrandId = 4,
                     AvailableStock = 100,
@@ -108,7 +113,8 @@ namespace dotnet_graphql.Data
                     Name = "Roslyn Red trousers pants",
                     Price = 8.5M
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 2,
                     ProductBrandId = 2,
                     AvailableStock = 100,
@@ -116,7 +122,8 @@ namespace dotnet_graphql.Data
                     Name = " Blue Hoodie",
                     Price = 12
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 2,
                     ProductBrandId = 5,
                     AvailableStock = 100,
@@ -124,7 +131,8 @@ namespace dotnet_graphql.Data
                     Name = "Roslyn Red T-Shirt",
                     Price = 12
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 2,
                     ProductBrandId = 1,
                     AvailableStock = 100,
@@ -132,7 +140,8 @@ namespace dotnet_graphql.Data
                     Name = "Kudu Purple Hoodie",
                     Price = 8.5M
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 1,
                     ProductBrandId = 5,
                     AvailableStock = 100,
@@ -140,7 +149,8 @@ namespace dotnet_graphql.Data
                     Name = "White Sneaker 11",
                     Price = 12
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 3,
                     ProductBrandId = 3,
                     AvailableStock = 100,
@@ -148,7 +158,8 @@ namespace dotnet_graphql.Data
                     Name = "F1 trousers pants",
                     Price = 11
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 3,
                     ProductBrandId = 2,
                     AvailableStock = 100,
@@ -157,7 +168,8 @@ namespace dotnet_graphql.Data
                     Price = 8.50M
 
                 },
-                new Product {
+                new Product
+                {
                     ProductTypeId = 2,
                     ProductBrandId = 4,
                     AvailableStock = 100,

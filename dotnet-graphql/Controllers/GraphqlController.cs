@@ -26,7 +26,9 @@ namespace dotnet_graphql.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] GraphQLQuery query)
         {
+            // query null
             if (query == null) { throw new ArgumentNullException(nameof(query)); }
+
             var inputs = query.Variables.ToInputs();
             var executionOptions = new ExecutionOptions
             {
@@ -35,12 +37,12 @@ namespace dotnet_graphql.Controllers
                 Inputs = inputs
             };
 
-            var result = await new DocumentExecuter().ExecuteAsync(executionOptions).ConfigureAwait(false);
+            var result = await new DocumentExecuter().ExecuteAsync(executionOptions)
+                .ConfigureAwait(false);
 
+            // has error
             if (result.Errors?.Count > 0)
-            {
                 return BadRequest(result);
-            }
 
             return Ok(result);
         }

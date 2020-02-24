@@ -102,8 +102,7 @@ namespace dotnet_graphql.Controllers
         [HttpDelete("{id}")]
         public async Task<bool> Delete(int id)
         {
-            await _productService.DeleteProductAsync(id);
-            return true;
+            return await _productService.DeleteProductAsync(id);
         }
     }
 }

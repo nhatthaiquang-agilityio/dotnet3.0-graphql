@@ -14,7 +14,6 @@ namespace dotnet_graphql.GraphQL
             Field<IntGraphType>("availableStock");
             Field<DecimalGraphType>("price");
             Field<ListGraphType<StringGraphType>>("sizes");
-
             Field<IntGraphType>("productTypeId");
             Field<IntGraphType>("productBrandId");
         }
