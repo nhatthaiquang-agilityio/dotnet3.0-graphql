@@ -9,6 +9,10 @@ namespace dotnet_graphql.Data
     {
         public async Task SeedAsync(AppDbContext context)
         {
+            if (!context.Users.Any())
+                context.Users.Add(
+                    new User {Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "Abcde@123"});
+
             if (!context.ProductTypes.Any())
                 await context.ProductTypes.AddRangeAsync(GetPreconfiguredProductTypes());
 

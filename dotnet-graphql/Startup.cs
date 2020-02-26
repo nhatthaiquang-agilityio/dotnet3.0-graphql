@@ -8,15 +8,21 @@ using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using GraphQL.Types;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using dotnet_graphql.Helpers;
+using GraphQL.Validation;
+using Microsoft.AspNetCore.Http;
 
 namespace dotnet_graphql
 {
@@ -38,8 +44,43 @@ namespace dotnet_graphql
             services.AddScoped<BookService>();
             services.AddScoped<ProductService>();
             services.AddScoped<AuthorService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddMvc().AddNewtonsoftJson();
+
+//            services.AddAuthentication(option =>
+//            {
+//                option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//                option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//                option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(jwtOptions =>
+                {
+                    jwtOptions.RequireHttpsMetadata = false;
+                    jwtOptions.SaveToken = true;
+                    jwtOptions.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+//                    jwtOptions.Authority = "http://localhost:5000";
+//                    jwtOptions.Audience = "graphql";
+                });
 
             ConfigureDatabase(services);
 
@@ -60,7 +101,10 @@ namespace dotnet_graphql
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 //route map configuration
@@ -129,6 +173,19 @@ namespace dotnet_graphql
             //    {
             //        Query = sp.GetService<APIQuery>()
             //    });
+
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            services.AddScoped<IValidationRule, AuthValidationRule>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // authorization
+//            services.AddGraphQL(x =>
+//                {
+//                    x.ExposeExceptions = true;
+//                })
+//                .AddGraphTypes(ServiceLifetime.Scoped)
+//                .AddUserContextBuilder(httpContext => httpContext.User)
+//                .AddDataLoader();
         }
 
         /// <summary>

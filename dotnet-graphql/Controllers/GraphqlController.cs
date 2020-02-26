@@ -3,7 +3,11 @@ using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using GraphQL.Validation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace dotnet_graphql.Controllers
 {
@@ -11,10 +15,16 @@ namespace dotnet_graphql.Controllers
     public class GraphqlController : ControllerBase
     {
         private readonly ISchema _schema;
+        private readonly IValidationRule _validationRule;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GraphqlController(ISchema schema)
+        public GraphqlController(ISchema schema,
+            IValidationRule validationRule,
+            IHttpContextAccessor httpContextAccessor)
         {
             _schema = schema;
+            _validationRule = validationRule;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -29,12 +39,17 @@ namespace dotnet_graphql.Controllers
             // query null
             if (query == null) { throw new ArgumentNullException(nameof(query)); }
 
+            Console.WriteLine("http context");
+            Console.WriteLine(_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated);
+
             var inputs = query.Variables.ToInputs();
             var executionOptions = new ExecutionOptions
             {
                 Schema = _schema,
                 Query = query.Query,
-                Inputs = inputs
+                Inputs = inputs,
+                ValidationRules = new List<IValidationRule>{ _validationRule },
+                UserContext = _httpContextAccessor.HttpContext.User
             };
 
             var result = await new DocumentExecuter().ExecuteAsync(executionOptions)

@@ -1,5 +1,6 @@
 ﻿using dotnet_graphql.Services;
 using dotnet_graphql.GraphQL;
+using GraphQL;
 using GraphQL.Types;
 
 namespace dotnet_graphql.Queries
@@ -47,7 +48,7 @@ namespace dotnet_graphql.Queries
                     var id = context.GetArgument<int>("id");
                     return productService.GetProduct(id);
                 }
-           );
+            );
 
             Field<ListGraphType<ProductType>>(
                 "Products",
