@@ -272,6 +272,55 @@
         }
         ```
 
+    + Get Token:
+        ```
+        POST http://localhost:5000/users/authenticate
+        Body:
+        {
+            "username": "test",
+            "password": "Abcde@123"
+        }
+        ```
+    + Authentication
+
+        ```
+        POST http://localhost:5000/graphql/
+        Authoriation: Bearer Token
+
+        Body:
+            {
+                "operationName":"APIQuery",
+                "variables":{"id":1},
+                "query":"query APIQuery {  products {    name  } }"
+
+            }
+
+            Response:
+            {
+                "data": {
+                    "products": [
+                        {
+                            "name": "White Sneaker 11"
+                        },
+                        {
+                            "name": "Kudu Purple Hoodie"
+                        },
+                        {
+                            "name": "Roslyn Red T-Shirt"
+                        },
+                        {
+                            "name": " Blue Hoodie"
+                        },
+                        {
+                            "name": "Roslyn Red trousers pants"
+                        },
+                        {
+                            "name": "Foundation T-shirt"
+                        }
+                    ]
+                }
+            }
+     ```
 ### References
 + [Configuring Many To Many Relationships in Entity Framework Core](https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration)
 + [Configuring One To Many Relationships in Entity Framework Core](https://www.learnentityframeworkcore.com/configuration/one-to-many-relationship-configuration)
@@ -279,3 +328,4 @@
 + [Building a GraphQL API with ASP.NET Core 2 and Entity Framework Core](https://fullstackmark.com/post/17/building-a-graphql-api-with-aspnet-core-2-and-entity-framework-core)
 + [Build a GraphQL API with ASP.NET Core](https://developer.okta.com/blog/2019/04/16/graphql-api-with-aspnetcore)
 + [Building GraphQL APIs with ASP.NET Core](https://medium.com/volosoft/building-graphql-apis-with-asp-net-core-419b32a5305b)
++ [GraphQL API Authorization](https://learnmoreseekmore.blogspot.com/2020/01/dotnet-core-graphql-api-authorization.html)
