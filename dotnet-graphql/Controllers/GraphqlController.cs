@@ -44,7 +44,7 @@ namespace dotnet_graphql.Controllers
                 Schema = _schema,
                 Query = query.Query,
                 Inputs = inputs,
-                ValidationRules = new List<IValidationRule>{ _validationRule },
+                // ValidationRules = new List<IValidationRule>{ _validationRule },
                 UserContext = _httpContextAccessor.HttpContext.User
             };
 

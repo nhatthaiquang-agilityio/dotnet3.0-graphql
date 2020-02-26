@@ -51,8 +51,7 @@ namespace dotnet_graphql.Queries
 
             Field<ListGraphType<ProductType>>(
                 "Products",
-                resolve: context => productService.GetProducts()
-            );
+                resolve: context => !AuthenticationService.IsAuthenticated(context) ? null : productService.GetProducts());
 
             Field<BookCategoriesType>(
                 "BookCategories",
