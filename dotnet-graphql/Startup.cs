@@ -162,6 +162,8 @@ namespace dotnet_graphql
             services.AddSingleton<BookCategoriesType>();
             services.AddSingleton<GraphQL.ProductType>();
             services.AddSingleton<SizeType>();
+            services.AddSingleton<UserInputType>();
+            services.AddSingleton<UserType>();
 
             services.AddScoped<APIQuery>();
             services.AddScoped<ProductMutation>();
@@ -214,6 +216,7 @@ namespace dotnet_graphql
             Mapper.Register<Author, AuthorDTO>();
             Mapper.Register<BookCategory, BookCategoryViewModel>();
             Mapper.Register<Category, CategoryViewModel>();
+            Mapper.Register<User, UserViewModel>();
             Mapper.Compile();
         }
     }

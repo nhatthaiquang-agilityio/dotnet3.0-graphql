@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using dotnet_graphql.Data;
 using dotnet_graphql.Helpers;
 using dotnet_graphql.Models;
 using Microsoft.Extensions.Options;
@@ -14,6 +15,9 @@ namespace dotnet_graphql.Services
     public interface IUserService
     {
         User Authenticate(string username, string password);
+
+        User CreateUser(UserViewModel user);
+
         IEnumerable<User> GetAll();
     }
 
@@ -26,10 +30,12 @@ namespace dotnet_graphql.Services
         };
 
         private readonly AppSettings _appSettings;
+        private readonly AppDbContext _appDbContext;
 
-        public UserService(IOptions<AppSettings> appSettings)
+        public UserService(AppDbContext appDbContext, IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
+            _appDbContext = appDbContext;
         }
 
         public User Authenticate(string username, string password)
@@ -62,6 +68,26 @@ namespace dotnet_graphql.Services
         public IEnumerable<User> GetAll()
         {
             return _users.WithoutPasswords();
+        }
+
+        public User CreateUser(UserViewModel userViewModel)
+        {
+            var user = _users.SingleOrDefault(x => x.Username == userViewModel.Username);
+
+            // user exists
+            if (user != null)
+                return null;
+
+            var userModel = new User
+            {
+                FirstName = userViewModel.FirstName,
+                LastName = userViewModel.LastName,
+                Username = userViewModel.Username,
+                Password = userViewModel.Password
+            };
+            _appDbContext.Users.Add(userModel);
+            _appDbContext.SaveChangesAsync();
+            return userModel;
         }
     }
 }

@@ -272,6 +272,46 @@
         }
         ```
 
+    + Create User
+        GraphQL
+        ```
+        mutation ($user: UserInput!) {
+            createUser(user: $user) {
+                firstName
+                lastName
+                username
+                password
+            }
+        }
+        ```
+
+        Query Vairable
+        ```
+        {
+            "user":
+            {
+                "firstName": "First",
+                "lastName": "Last",
+                "username": "firstlasttest",
+            }
+        }
+        ```
+
+        Output
+        ```
+        {
+            "data": {
+                "createUser": {
+                    "firstName": "First",
+                    "lastName": "Last",
+                    "username": "firstlasttest",
+                    "password": "Abcde@123"
+                }
+            }
+        }
+        ```
+
++ Using Postman
     + Get Token:
         ```
         POST http://localhost:5000/users/authenticate
@@ -281,21 +321,21 @@
             "password": "Abcde@123"
         }
         ```
+
     + Authentication
 
         ```
         POST http://localhost:5000/graphql/
-        Authoriation: Bearer Token
+        Authoriation: Bearer [Token]
 
         Body:
             {
-                "operationName":"APIQuery",
-                "variables":{"id":1},
-                "query":"query APIQuery {  products {    name  } }"
-
+                "operationName": "APIQuery",
+                "variables": { "id": 1 },
+                "query": " query APIQuery { products { name } }"
             }
 
-            Response:
+        Output:
             {
                 "data": {
                     "products": [
@@ -320,7 +360,8 @@
                     ]
                 }
             }
-     ```
+        ```
+
 ### References
 + [Configuring Many To Many Relationships in Entity Framework Core](https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration)
 + [Configuring One To Many Relationships in Entity Framework Core](https://www.learnentityframeworkcore.com/configuration/one-to-many-relationship-configuration)

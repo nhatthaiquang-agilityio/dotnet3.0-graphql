@@ -7,7 +7,7 @@ namespace dotnet_graphql.Queries
 {
     public class ProductMutation : ObjectGraphType
     {
-        public ProductMutation(ProductService productService)
+        public ProductMutation(ProductService productService, IUserService userService)
         {
             Name = "Mutation";
 
@@ -32,6 +32,17 @@ namespace dotnet_graphql.Queries
                 var product = context.GetArgument<ProductViewModel>("product");
                 return productService.UpdateProductAsync(product);
             });
+
+            Field<UserType>(
+                "createUser",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<UserInputType>> { Name = "user" }
+                ),
+                resolve: context =>
+                {
+                    var user = context.GetArgument<UserViewModel>("user");
+                    return userService.CreateUser(user);
+                });
         }
     }
 }

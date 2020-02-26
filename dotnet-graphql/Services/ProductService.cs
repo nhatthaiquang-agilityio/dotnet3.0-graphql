@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using ExpressMapper;
 
 
 namespace dotnet_graphql.Services
@@ -59,15 +60,7 @@ namespace dotnet_graphql.Services
         /// <returns></returns>
         public async Task<Product> Create(ProductViewModel productViewModel)
         {
-            var product = new Product
-            {
-                ProductBrandId = productViewModel.ProductBrandId,
-                ProductTypeId = productViewModel.ProductTypeId,
-                Name = productViewModel.Name,
-                Price = productViewModel.Price,
-                Description = productViewModel.Description,
-                AvailableStock = productViewModel.AvailableStock
-            };
+            var product = Mapper.Map<ProductViewModel, Product>(productViewModel);
 
             // save product
             await _appDbContext.Products.AddAsync(product);
@@ -98,15 +91,7 @@ namespace dotnet_graphql.Services
             if (productItem == null)
                 return null;
 
-            // TODO: using mapping
-            // set values
-            productItem.ProductBrandId = productViewModel.ProductBrandId;
-            productItem.ProductTypeId = productViewModel.ProductTypeId;
-            productItem.Name = productViewModel.Name;
-            productItem.Price = productViewModel.Price;
-            productItem.Description = productViewModel.Description;
-            productItem.AvailableStock = productViewModel.AvailableStock;
-
+            productItem = Mapper.Map<ProductViewModel, Product>(productViewModel);
             _appDbContext.Products.Update(productItem);
 
             // save size
