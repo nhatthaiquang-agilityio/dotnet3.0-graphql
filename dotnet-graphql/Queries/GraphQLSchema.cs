@@ -8,13 +8,7 @@ namespace dotnet_graphql.Queries
         public GraphQLSchema(IDependencyResolver resolver)
         {
             Query = resolver.Resolve<APIQuery>();
-            Mutation = resolver.Resolve<ProductMutation>();
+            Mutation = resolver.Resolve<APIMutation>();
         }
-
-        //public GraphQLSchema(Func<Type, GraphType> resolve)
-        //{
-        //    Query = (APIQuery)resolve(typeof(APIQuery));
-        //    Mutation = (ProductMutation)resolve(typeof(ProductMutation));
-        //}
     }
 }

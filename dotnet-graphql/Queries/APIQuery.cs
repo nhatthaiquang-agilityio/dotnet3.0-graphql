@@ -1,6 +1,5 @@
 ﻿using dotnet_graphql.Services;
-using dotnet_graphql.GraphQL;
-using GraphQL;
+using dotnet_graphql.GraphQL.ObjectTypes;
 using GraphQL.Types;
 
 namespace dotnet_graphql.Queries

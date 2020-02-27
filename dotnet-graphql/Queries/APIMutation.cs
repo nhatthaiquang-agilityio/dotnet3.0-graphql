@@ -1,17 +1,19 @@
-﻿using dotnet_graphql.GraphQL;
+﻿using dotnet_graphql.GraphQL.InputTypes;
+using dotnet_graphql.GraphQL.ObjectTypes;
 using dotnet_graphql.Models;
 using dotnet_graphql.Services;
 using GraphQL.Types;
+using ProductType = dotnet_graphql.GraphQL.ObjectTypes.ProductType;
 
 namespace dotnet_graphql.Queries
 {
-    public class ProductMutation : ObjectGraphType
+    public class APIMutation : ObjectGraphType
     {
-        public ProductMutation(ProductService productService, IUserService userService)
+        public APIMutation(ProductService productService, IUserService userService)
         {
             Name = "Mutation";
 
-            Field<GraphQL.ProductType>(
+            Field<ProductType>(
                 "createProduct",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<ProductInputType>> { Name = "product" }
@@ -22,7 +24,7 @@ namespace dotnet_graphql.Queries
                 return productService.Create(product);
             });
 
-            Field<GraphQL.ProductType>(
+            Field<ProductType>(
                 "updateProduct",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<ProductInputType>> { Name = "product" }

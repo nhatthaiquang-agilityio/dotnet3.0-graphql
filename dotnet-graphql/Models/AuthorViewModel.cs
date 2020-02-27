@@ -1,6 +1,6 @@
 ﻿namespace dotnet_graphql.Models
 {
-    public class AuthorDTO
+    public class AuthorViewModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

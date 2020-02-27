@@ -1,7 +1,7 @@
 ﻿using dotnet_graphql.Models;
 using GraphQL.Types;
 
-namespace dotnet_graphql.GraphQL
+namespace dotnet_graphql.GraphQL.InputTypes
 {
     public class ProductInputType : InputObjectGraphType<ProductViewModel>
     {

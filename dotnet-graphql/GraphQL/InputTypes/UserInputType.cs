@@ -1,7 +1,7 @@
 using GraphQL.Types;
 using dotnet_graphql.Models;
 
-namespace dotnet_graphql.GraphQL
+namespace dotnet_graphql.GraphQL.InputTypes
 {
     public class UserInputType : InputObjectGraphType<UserViewModel>
     {

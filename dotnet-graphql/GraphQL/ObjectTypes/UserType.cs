@@ -1,7 +1,7 @@
 using GraphQL.Types;
 using dotnet_graphql.Models;
 
-namespace dotnet_graphql.GraphQL
+namespace dotnet_graphql.GraphQL.ObjectTypes
 {
     public class UserType : ObjectGraphType<User>
     {

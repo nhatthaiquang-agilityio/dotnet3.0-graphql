@@ -1,8 +1,11 @@
 using dotnet_graphql.Services;
 using dotnet_graphql.Data;
 using dotnet_graphql.Models;
-using dotnet_graphql.GraphQL;
+using dotnet_graphql.Helpers;
+using dotnet_graphql.GraphQL.InputTypes;
+using dotnet_graphql.GraphQL.ObjectTypes;
 using dotnet_graphql.Queries;
+using GraphQL.Validation;
 using ExpressMapper;
 using GraphQL;
 using GraphQL.Server;
@@ -11,6 +14,7 @@ using GraphQL.Types;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,9 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using dotnet_graphql.Helpers;
-using GraphQL.Validation;
-using Microsoft.AspNetCore.Http;
+using ProductType = dotnet_graphql.GraphQL.ObjectTypes.ProductType;
 
 namespace dotnet_graphql
 {
@@ -48,13 +50,6 @@ namespace dotnet_graphql
 
             services.AddMvc().AddNewtonsoftJson();
 
-//            services.AddAuthentication(option =>
-//            {
-//                option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//                option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//                option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
-
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -78,8 +73,6 @@ namespace dotnet_graphql
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
-//                    jwtOptions.Authority = "http://localhost:5000";
-//                    jwtOptions.Audience = "graphql";
                 });
 
             ConfigureDatabase(services);
@@ -154,19 +147,20 @@ namespace dotnet_graphql
         /// <param name="services">IServiceCollection.</param>
         private void InitGraphQLSchema(IServiceCollection services)
         {
-            // using for graphql schema and mutation
+            // using for graphql query and mutation
             services.AddSingleton<ProductInputType>();
+            services.AddSingleton<UserInputType>();
+
             services.AddSingleton<BookType>();
             services.AddSingleton<AuthorType>();
             services.AddSingleton<CategoryType>();
             services.AddSingleton<BookCategoriesType>();
-            services.AddSingleton<GraphQL.ProductType>();
+            services.AddSingleton<ProductType>();
             services.AddSingleton<SizeType>();
-            services.AddSingleton<UserInputType>();
             services.AddSingleton<UserType>();
 
             services.AddScoped<APIQuery>();
-            services.AddScoped<ProductMutation>();
+            services.AddScoped<APIMutation>();
 
             var sp = services.BuildServiceProvider();
             services.AddSingleton<ISchema>(new GraphQLSchema(new FuncDependencyResolver(sp.GetService)));
@@ -179,15 +173,6 @@ namespace dotnet_graphql
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
             services.AddScoped<IValidationRule, AuthValidationRule>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            // authorization
-//            services.AddGraphQL(x =>
-//                {
-//                    x.ExposeExceptions = true;
-//                })
-//                .AddGraphTypes(ServiceLifetime.Scoped)
-//                .AddUserContextBuilder(httpContext => httpContext.User)
-//                .AddDataLoader();
         }
 
         /// <summary>
@@ -213,7 +198,7 @@ namespace dotnet_graphql
                         where bookCategory?.Category != null select bookCategory.Category.CategoryName);
                     return categories;
                 });
-            Mapper.Register<Author, AuthorDTO>();
+            Mapper.Register<Author, AuthorViewModel>();
             Mapper.Register<BookCategory, BookCategoryViewModel>();
             Mapper.Register<Category, CategoryViewModel>();
             Mapper.Register<User, UserViewModel>();
