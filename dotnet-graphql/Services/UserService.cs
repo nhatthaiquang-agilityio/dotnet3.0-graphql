@@ -7,6 +7,7 @@ using System.Text;
 using dotnet_graphql.Data;
 using dotnet_graphql.Helpers;
 using dotnet_graphql.Models;
+using ExpressMapper;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -51,7 +52,7 @@ namespace dotnet_graphql.Services
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                Subject = new ClaimsIdentity(new []
                 {
                     new Claim(ClaimTypes.Name, user.Id.ToString())
                 }),
@@ -78,13 +79,9 @@ namespace dotnet_graphql.Services
             if (user != null)
                 return null;
 
-            var userModel = new User
-            {
-                FirstName = userViewModel.FirstName,
-                LastName = userViewModel.LastName,
-                Username = userViewModel.Username,
-                Password = userViewModel.Password
-            };
+            // mapping user
+            var userModel = Mapper.Map<UserViewModel, User>(userViewModel);
+
             _appDbContext.Users.Add(userModel);
             _appDbContext.SaveChangesAsync();
             return userModel;

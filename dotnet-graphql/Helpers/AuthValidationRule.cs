@@ -33,7 +33,7 @@ namespace dotnet_graphql.Helpers
                 _.Match<Field>(fieldAst =>
                 {
                     var fieldDef = context.TypeInfo.GetFieldDef();
-                    var claims = userContext?.Claims.Select(_ => _.Value).ToList();
+                    var claims = userContext?.Claims.Select(c => c.Value).ToList();
                     if (fieldDef.RequiresPermission() &&
                         (!authenticated || !fieldDef.CanAccess(claims)))
                     {
